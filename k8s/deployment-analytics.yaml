@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analytics-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: analytics
+  template:
+    metadata:
+      labels:
+        app: analytics
+    spec:
+      containers:
+      - name: analytics
+        image: jawadsaleem/bonus_task:analytics
+        ports:
+        - containerPort: 3003
+        envFrom:
+        - configMapRef:
+            name: analytics-config
+        - secretRef:
+            name: analytics-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: analytics-service
+spec:
+  type: ClusterIP
+  selector:
+    app: analytics
+  ports:
+    - port: 80
+      targetPort: 3003
