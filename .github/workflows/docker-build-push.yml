@@ -28,27 +28,27 @@ jobs:
       - name: Build and push Auth service
         uses: docker/build-push-action@v5
         with:
-          context: ./auth
+          context: ./auth-service
           push: true
           tags: jawadsaleem/bonus_task-auth:latest
 
       - name: Build and push Blog service
         uses: docker/build-push-action@v5
         with:
-          context: ./blog
+          context: ./blog-service
           push: true
           tags: jawadsaleem/bonus_task-blog:latest
 
       - name: Build and push Analytics service
         uses: docker/build-push-action@v5
         with:
-          context: ./analytics
+          context: ./analytics-service
           push: true
           tags: jawadsaleem/bonus_task-analytics:latest
 
       - name: Build and push Apache Reverse Proxy
         uses: docker/build-push-action@v5
         with:
-          context: ./apache
+          context: ./apache-proxy
           push: true
           tags: jawadsaleem/bonus_task-apache:latest
