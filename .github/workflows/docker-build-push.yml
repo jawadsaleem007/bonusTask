@@ -1,0 +1,54 @@
+name: Build and Push Docker Images
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  REGISTRY: docker.io
+  USERNAME: jawadsaleem
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Auth service
+        uses: docker/build-push-action@v5
+        with:
+          context: ./auth
+          push: true
+          tags: jawadsaleem/bonus_task-auth:latest
+
+      - name: Build and push Blog service
+        uses: docker/build-push-action@v5
+        with:
+          context: ./blog
+          push: true
+          tags: jawadsaleem/bonus_task-blog:latest
+
+      - name: Build and push Analytics service
+        uses: docker/build-push-action@v5
+        with:
+          context: ./analytics
+          push: true
+          tags: jawadsaleem/bonus_task-analytics:latest
+
+      - name: Build and push Apache Reverse Proxy
+        uses: docker/build-push-action@v5
+        with:
+          context: ./apache
+          push: true
+          tags: jawadsaleem/bonus_task-apache:latest
